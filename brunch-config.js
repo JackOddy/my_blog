@@ -43,7 +43,7 @@ exports.config = {
     watched: [
       "web/static",
       "test/static",
-       "web/elm/PostList.elm"
+       "web/elm/Main.elm"
     ],
 
     // Where to compile files to
@@ -54,7 +54,7 @@ exports.config = {
   plugins: {
              elmBrunch: {
                           elmFolder: "web/elm",
-                          mainModules: ["PostList.elm"],
+                          mainModules: ["Main.elm"],
                           outputFolder: "../static/vendor"
                           // executablePath: "./node_modules/elm/binwrappers"
                         },
