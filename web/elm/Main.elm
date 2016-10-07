@@ -4,14 +4,16 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Html.App as App
-import PostList
+import Blog
 
 
 --model
 
 
 type alias Model =
-    { page : Page }
+    { page : Page
+    , blog : Blog.Model
+    }
 
 
 type Page
@@ -23,7 +25,9 @@ type Page
 
 initModel : Model
 initModel =
-    { page = About }
+    { page = About
+    , blog = Blog.initModel
+    }
 
 
 init : ( Model, Cmd Msg )
@@ -37,6 +41,7 @@ init =
 
 type Msg
     = Navigate Page
+    | BlogMsg Blog.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -44,6 +49,9 @@ update msg model =
     case msg of
         Navigate page ->
             ( { model | page = page }, Cmd.none )
+
+        _ ->
+            ( model, Cmd.none )
 
 
 
@@ -78,7 +86,8 @@ view model =
                     viewPage "LeaderBoard Page"
 
                 Blog ->
-                    viewPage "List of Blog Posts"
+                    App.map BlogMsg
+                        (Blog.view model.blog)
 
                 Contact ->
                     viewPage "Contact Page"
@@ -90,6 +99,9 @@ view model =
             [ navBar model
             , hr [] []
             , page
+            , p []
+                [ text <| toString model
+                ]
             ]
 
 

@@ -1,4 +1,4 @@
-module PostList exposing (..)
+module Blog exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -15,9 +15,17 @@ type alias Model =
     String
 
 
+type alias Post =
+    { title : String
+    , body : String
+    , time : String
+    , author : String
+    }
+
+
 initModel : Model
 initModel =
-    "Loading posts..."
+    "Loading Posts..."
 
 
 init : ( Model, Cmd Msg )

@@ -8704,10 +8704,10 @@ var _evancz$elm_http$Http$post = F3(
 			A2(_evancz$elm_http$Http$send, _evancz$elm_http$Http$defaultSettings, request));
 	});
 
-var _user$project$PostList$subscriptions = function (model) {
+var _user$project$Blog$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
 };
-var _user$project$PostList$view = function (model) {
+var _user$project$Blog$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
@@ -8717,7 +8717,7 @@ var _user$project$PostList$view = function (model) {
 				_elm_lang$html$Html$text(model)
 			]));
 };
-var _user$project$PostList$update = F2(
+var _user$project$Blog$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		if (_p0.ctor === 'AllPosts') {
@@ -8730,23 +8730,27 @@ var _user$project$PostList$update = F2(
 			};
 		}
 	});
-var _user$project$PostList$initModel = 'Loading posts...';
-var _user$project$PostList$Fail = function (a) {
+var _user$project$Blog$initModel = 'Loading Posts...';
+var _user$project$Blog$Post = F4(
+	function (a, b, c, d) {
+		return {title: a, body: b, time: c, author: d};
+	});
+var _user$project$Blog$Fail = function (a) {
 	return {ctor: 'Fail', _0: a};
 };
-var _user$project$PostList$AllPosts = function (a) {
+var _user$project$Blog$AllPosts = function (a) {
 	return {ctor: 'AllPosts', _0: a};
 };
-var _user$project$PostList$allPosts = function () {
+var _user$project$Blog$allPosts = function () {
 	var url = '/api/posts';
 	var task = _evancz$elm_http$Http$getString(url);
-	var cmd = A3(_elm_lang$core$Task$perform, _user$project$PostList$Fail, _user$project$PostList$AllPosts, task);
+	var cmd = A3(_elm_lang$core$Task$perform, _user$project$Blog$Fail, _user$project$Blog$AllPosts, task);
 	return cmd;
 }();
-var _user$project$PostList$init = {ctor: '_Tuple2', _0: _user$project$PostList$initModel, _1: _user$project$PostList$allPosts};
-var _user$project$PostList$main = {
+var _user$project$Blog$init = {ctor: '_Tuple2', _0: _user$project$Blog$initModel, _1: _user$project$Blog$allPosts};
+var _user$project$Blog$main = {
 	main: _elm_lang$html$Html_App$program(
-		{init: _user$project$PostList$init, update: _user$project$PostList$update, view: _user$project$PostList$view, subscriptions: _user$project$PostList$subscriptions})
+		{init: _user$project$Blog$init, update: _user$project$Blog$update, view: _user$project$Blog$view, subscriptions: _user$project$Blog$subscriptions})
 };
 
 var _user$project$Main$subscriptions = function (model) {
@@ -8781,23 +8785,31 @@ var _user$project$Main$viewPage = function (pageDescription) {
 var _user$project$Main$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
-		return {
-			ctor: '_Tuple2',
-			_0: _elm_lang$core$Native_Utils.update(
-				model,
-				{page: _p0._0}),
-			_1: _elm_lang$core$Platform_Cmd$none
-		};
+		if (_p0.ctor === 'Navigate') {
+			return {
+				ctor: '_Tuple2',
+				_0: _elm_lang$core$Native_Utils.update(
+					model,
+					{page: _p0._0}),
+				_1: _elm_lang$core$Platform_Cmd$none
+			};
+		} else {
+			return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+		}
 	});
-var _user$project$Main$Model = function (a) {
-	return {page: a};
-};
+var _user$project$Main$Model = F2(
+	function (a, b) {
+		return {page: a, blog: b};
+	});
 var _user$project$Main$NotFound = {ctor: 'NotFound'};
 var _user$project$Main$Contact = {ctor: 'Contact'};
 var _user$project$Main$Blog = {ctor: 'Blog'};
 var _user$project$Main$About = {ctor: 'About'};
-var _user$project$Main$initModel = {page: _user$project$Main$About};
+var _user$project$Main$initModel = {page: _user$project$Main$About, blog: _user$project$Blog$initModel};
 var _user$project$Main$init = {ctor: '_Tuple2', _0: _user$project$Main$initModel, _1: _elm_lang$core$Platform_Cmd$none};
+var _user$project$Main$BlogMsg = function (a) {
+	return {ctor: 'BlogMsg', _0: a};
+};
 var _user$project$Main$Navigate = function (a) {
 	return {ctor: 'Navigate', _0: a};
 };
@@ -8852,7 +8864,10 @@ var _user$project$Main$view = function (model) {
 			case 'About':
 				return _user$project$Main$viewPage('LeaderBoard Page');
 			case 'Blog':
-				return _user$project$Main$viewPage('List of Blog Posts');
+				return A2(
+					_elm_lang$html$Html_App$map,
+					_user$project$Main$BlogMsg,
+					_user$project$Blog$view(model.blog));
 			case 'Contact':
 				return _user$project$Main$viewPage('Contact Page');
 			default:
@@ -8872,7 +8887,16 @@ var _user$project$Main$view = function (model) {
 					[]),
 				_elm_lang$core$Native_List.fromArray(
 					[])),
-				page
+				page,
+				A2(
+				_elm_lang$html$Html$p,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text(
+						_elm_lang$core$Basics$toString(model))
+					]))
 			]));
 };
 var _user$project$Main$main = {
