@@ -28,11 +28,6 @@ initModel =
     "Loading Posts..."
 
 
-init : ( Model, Cmd Msg )
-init =
-    ( initModel, allPosts )
-
-
 allPosts : Cmd Msg
 allPosts =
     let
@@ -57,14 +52,14 @@ type Msg
     | Fail Http.Error
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> Model
 update msg model =
     case msg of
         AllPosts json ->
-            ( json, Cmd.none )
+            json
 
         Fail error ->
-            ( toString <| error, Cmd.none )
+            toString <| error
 
 
 
@@ -75,21 +70,3 @@ view : Model -> Html Msg
 view model =
     div []
         [ text model ]
-
-
-
---subscriptions
-
-
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    Sub.none
-
-
-main =
-    App.program
-        { init = init
-        , update = update
-        , view = view
-        , subscriptions = subscriptions
-        }

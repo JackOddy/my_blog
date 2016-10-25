@@ -5,6 +5,8 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Html.App as App
 import Blog
+import Contact
+import About
 
 
 --model
@@ -13,6 +15,8 @@ import Blog
 type alias Model =
     { page : Page
     , blog : Blog.Model
+    , about : About.Model
+    , contact : Contact.Model
     }
 
 
@@ -27,12 +31,19 @@ initModel : Model
 initModel =
     { page = About
     , blog = Blog.initModel
+    , contact = Contact.initModel
+    , about = About.initModel
     }
 
 
-init : ( Model, Cmd Msg )
+init : ( Model, Cmd Blog.Msg )
 init =
-    ( initModel, Cmd.none )
+    ( initModel, initCommand )
+
+
+initCommand : Cmd Blog.Msg
+initCommand =
+    Blog.allPosts
 
 
 
