@@ -15,8 +15,6 @@ import About
 type alias Model =
     { page : Page
     , blog : Blog.Model
-    , about : About.Model
-    , contact : Contact.Model
     }
 
 
@@ -31,19 +29,17 @@ initModel : Model
 initModel =
     { page = About
     , blog = Blog.initModel
-    , contact = Contact.initModel
-    , about = About.initModel
     }
 
 
-init : ( Model, Cmd Blog.Msg )
+init : ( Model, Cmd Msg )
 init =
     ( initModel, initCommand )
 
 
-initCommand : Cmd Blog.Msg
+initCommand : Cmd Msg
 initCommand =
-    Blog.allPosts
+    Cmd.map BlogMsg Blog.allPosts
 
 
 
@@ -61,8 +57,12 @@ update msg model =
         Navigate page ->
             ( { model | page = page }, Cmd.none )
 
-        _ ->
-            ( model, Cmd.none )
+        BlogMsg subMsg ->
+            let
+                updatedBlogModel =
+                    Blog.update subMsg model.blog
+            in
+                ( { model | blog = updatedBlogModel }, Cmd.none )
 
 
 

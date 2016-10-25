@@ -8704,9 +8704,11 @@ var _evancz$elm_http$Http$post = F3(
 			A2(_evancz$elm_http$Http$send, _evancz$elm_http$Http$defaultSettings, request));
 	});
 
-var _user$project$Blog$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$none;
+var _user$project$About$initModel = {about: 'Hi I\'m Jack'};
+var _user$project$About$Model = function (a) {
+	return {about: a};
 };
+
 var _user$project$Blog$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -8721,13 +8723,9 @@ var _user$project$Blog$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		if (_p0.ctor === 'AllPosts') {
-			return {ctor: '_Tuple2', _0: _p0._0, _1: _elm_lang$core$Platform_Cmd$none};
+			return _p0._0;
 		} else {
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Basics$toString(_p0._0),
-				_1: _elm_lang$core$Platform_Cmd$none
-			};
+			return _elm_lang$core$Basics$toString(_p0._0);
 		}
 	});
 var _user$project$Blog$initModel = 'Loading Posts...';
@@ -8747,11 +8745,42 @@ var _user$project$Blog$allPosts = function () {
 	var cmd = A3(_elm_lang$core$Task$perform, _user$project$Blog$Fail, _user$project$Blog$AllPosts, task);
 	return cmd;
 }();
-var _user$project$Blog$init = {ctor: '_Tuple2', _0: _user$project$Blog$initModel, _1: _user$project$Blog$allPosts};
-var _user$project$Blog$main = {
-	main: _elm_lang$html$Html_App$program(
-		{init: _user$project$Blog$init, update: _user$project$Blog$update, view: _user$project$Blog$view, subscriptions: _user$project$Blog$subscriptions})
+
+var _user$project$Contact$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class('github')
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text(model.github)
+					])),
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class('email')
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text(model.email)
+					]))
+			]));
 };
+var _user$project$Contact$initModel = {job: '', github: 'github.com/jackoddy', twitter: '', email: 'jack.oddy@gmail.com'};
+var _user$project$Contact$Model = F4(
+	function (a, b, c, d) {
+		return {job: a, github: b, twitter: c, email: d};
+	});
+var _user$project$Contact$J = {ctor: 'J'};
 
 var _user$project$Main$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
@@ -8794,7 +8823,14 @@ var _user$project$Main$update = F2(
 				_1: _elm_lang$core$Platform_Cmd$none
 			};
 		} else {
-			return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			var updatedBlogModel = A2(_user$project$Blog$update, _p0._0, model.blog);
+			return {
+				ctor: '_Tuple2',
+				_0: _elm_lang$core$Native_Utils.update(
+					model,
+					{blog: updatedBlogModel}),
+				_1: _elm_lang$core$Platform_Cmd$none
+			};
 		}
 	});
 var _user$project$Main$Model = F2(
@@ -8806,10 +8842,11 @@ var _user$project$Main$Contact = {ctor: 'Contact'};
 var _user$project$Main$Blog = {ctor: 'Blog'};
 var _user$project$Main$About = {ctor: 'About'};
 var _user$project$Main$initModel = {page: _user$project$Main$About, blog: _user$project$Blog$initModel};
-var _user$project$Main$init = {ctor: '_Tuple2', _0: _user$project$Main$initModel, _1: _elm_lang$core$Platform_Cmd$none};
 var _user$project$Main$BlogMsg = function (a) {
 	return {ctor: 'BlogMsg', _0: a};
 };
+var _user$project$Main$initCommand = A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$BlogMsg, _user$project$Blog$allPosts);
+var _user$project$Main$init = {ctor: '_Tuple2', _0: _user$project$Main$initModel, _1: _user$project$Main$initCommand};
 var _user$project$Main$Navigate = function (a) {
 	return {ctor: 'Navigate', _0: a};
 };
