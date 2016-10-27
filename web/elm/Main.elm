@@ -15,6 +15,8 @@ import About
 type alias Model =
     { page : Page
     , blog : Blog.Model
+    , contact : Contact.Model
+    , about : About.Model
     }
 
 
@@ -29,6 +31,8 @@ initModel : Model
 initModel =
     { page = About
     , blog = Blog.initModel
+    , contact = Contact.initModel
+    , about = About.initModel
     }
 
 
@@ -49,6 +53,8 @@ initCommand =
 type Msg
     = Navigate Page
     | BlogMsg Blog.Msg
+    | ContactMsg Contact.Msg
+    | AboutMsg About.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -63,6 +69,12 @@ update msg model =
                     Blog.update subMsg model.blog
             in
                 ( { model | blog = updatedBlogModel }, Cmd.none )
+
+        ContactMsg subMsg ->
+            ( model, Cmd.none )
+
+        AboutMsg subMsg ->
+            ( model, Cmd.none )
 
 
 
@@ -94,17 +106,19 @@ view model =
         page =
             case model.page of
                 About ->
-                    viewPage "LeaderBoard Page"
+                    App.map AboutMsg
+                        (About.view model.about)
 
                 Blog ->
                     App.map BlogMsg
                         (Blog.view model.blog)
 
                 Contact ->
-                    viewPage "Contact Page"
+                    App.map ContactMsg
+                        (Contact.view model.contact)
 
                 NotFound ->
-                    viewPage "Page not found"
+                    div [] []
     in
         div []
             [ navBar model

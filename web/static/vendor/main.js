@@ -8704,10 +8704,30 @@ var _evancz$elm_http$Http$post = F3(
 			A2(_evancz$elm_http$Http$send, _evancz$elm_http$Http$defaultSettings, request));
 	});
 
+var _user$project$About$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Attributes$class('about')
+			]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text(model.about)
+					]))
+			]));
+};
 var _user$project$About$initModel = {about: 'Hi I\'m Jack'};
 var _user$project$About$Model = function (a) {
 	return {about: a};
 };
+var _user$project$About$J = {ctor: 'J'};
 
 var _user$project$Blog$view = function (model) {
 	return A2(
@@ -8814,34 +8834,45 @@ var _user$project$Main$viewPage = function (pageDescription) {
 var _user$project$Main$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
-		if (_p0.ctor === 'Navigate') {
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{page: _p0._0}),
-				_1: _elm_lang$core$Platform_Cmd$none
-			};
-		} else {
-			var updatedBlogModel = A2(_user$project$Blog$update, _p0._0, model.blog);
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{blog: updatedBlogModel}),
-				_1: _elm_lang$core$Platform_Cmd$none
-			};
+		switch (_p0.ctor) {
+			case 'Navigate':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{page: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'BlogMsg':
+				var updatedBlogModel = A2(_user$project$Blog$update, _p0._0, model.blog);
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{blog: updatedBlogModel}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'ContactMsg':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			default:
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 		}
 	});
-var _user$project$Main$Model = F2(
-	function (a, b) {
-		return {page: a, blog: b};
+var _user$project$Main$Model = F4(
+	function (a, b, c, d) {
+		return {page: a, blog: b, contact: c, about: d};
 	});
 var _user$project$Main$NotFound = {ctor: 'NotFound'};
 var _user$project$Main$Contact = {ctor: 'Contact'};
 var _user$project$Main$Blog = {ctor: 'Blog'};
 var _user$project$Main$About = {ctor: 'About'};
-var _user$project$Main$initModel = {page: _user$project$Main$About, blog: _user$project$Blog$initModel};
+var _user$project$Main$initModel = {page: _user$project$Main$About, blog: _user$project$Blog$initModel, contact: _user$project$Contact$initModel, about: _user$project$About$initModel};
+var _user$project$Main$AboutMsg = function (a) {
+	return {ctor: 'AboutMsg', _0: a};
+};
+var _user$project$Main$ContactMsg = function (a) {
+	return {ctor: 'ContactMsg', _0: a};
+};
 var _user$project$Main$BlogMsg = function (a) {
 	return {ctor: 'BlogMsg', _0: a};
 };
@@ -8899,16 +8930,27 @@ var _user$project$Main$view = function (model) {
 		var _p1 = model.page;
 		switch (_p1.ctor) {
 			case 'About':
-				return _user$project$Main$viewPage('LeaderBoard Page');
+				return A2(
+					_elm_lang$html$Html_App$map,
+					_user$project$Main$AboutMsg,
+					_user$project$About$view(model.about));
 			case 'Blog':
 				return A2(
 					_elm_lang$html$Html_App$map,
 					_user$project$Main$BlogMsg,
 					_user$project$Blog$view(model.blog));
 			case 'Contact':
-				return _user$project$Main$viewPage('Contact Page');
+				return A2(
+					_elm_lang$html$Html_App$map,
+					_user$project$Main$ContactMsg,
+					_user$project$Contact$view(model.contact));
 			default:
-				return _user$project$Main$viewPage('Page not found');
+				return A2(
+					_elm_lang$html$Html$div,
+					_elm_lang$core$Native_List.fromArray(
+						[]),
+					_elm_lang$core$Native_List.fromArray(
+						[]));
 		}
 	}();
 	return A2(
