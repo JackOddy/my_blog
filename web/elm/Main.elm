@@ -100,6 +100,21 @@ viewPage pageDescription =
         ]
 
 
+aboutPage : Model -> Html Msg
+aboutPage model =
+    App.map AboutMsg <| About.view model.about
+
+
+blogPage : Model -> Html Msg
+blogPage model =
+    App.map BlogMsg <| Blog.view model.blog
+
+
+contactPage : Model -> Html Msg
+contactPage model =
+    App.map ContactMsg <| Contact.view model.contact
+
+
 view : Model -> Html Msg
 view model =
     let
@@ -120,12 +135,16 @@ view model =
                 NotFound ->
                     div [] []
     in
-        div []
+        div [ class "container" ]
             [ navBar model
             , hr [] []
-            , page
-            , p []
-                [ text <| toString model
+            , div [ class "view" ]
+                [ div
+                    [ class "strip", id <| toString model.page ]
+                    [ aboutPage model
+                    , blogPage model
+                    , contactPage model
+                    ]
                 ]
             ]
 

@@ -8709,17 +8709,26 @@ var _user$project$About$view = function (model) {
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[
-				_elm_lang$html$Html_Attributes$class('about')
+				_elm_lang$html$Html_Attributes$class('pane')
 			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
 				A2(
 				_elm_lang$html$Html$div,
 				_elm_lang$core$Native_List.fromArray(
-					[]),
+					[
+						_elm_lang$html$Html_Attributes$class('about')
+					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html$text(model.about)
+						A2(
+						_elm_lang$html$Html$div,
+						_elm_lang$core$Native_List.fromArray(
+							[]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html$text(model.about)
+							]))
 					]))
 			]));
 };
@@ -8733,10 +8742,21 @@ var _user$project$Blog$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
-			[]),
+			[
+				_elm_lang$html$Html_Attributes$class('pane')
+			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
-				_elm_lang$html$Html$text(model)
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class('blog')
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text(model)
+					]))
 			]));
 };
 var _user$project$Blog$update = F2(
@@ -8770,28 +8790,39 @@ var _user$project$Contact$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
-			[]),
+			[
+				_elm_lang$html$Html_Attributes$class('pane')
+			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
 				A2(
 				_elm_lang$html$Html$div,
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html_Attributes$class('github')
+						_elm_lang$html$Html_Attributes$class('contact')
 					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html$text(model.github)
-					])),
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$class('email')
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html$text(model.email)
+						A2(
+						_elm_lang$html$Html$div,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$class('github')
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html$text(model.github)
+							])),
+						A2(
+						_elm_lang$html$Html$div,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$class('email')
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html$text(model.email)
+							]))
 					]))
 			]));
 };
@@ -8870,14 +8901,32 @@ var _user$project$Main$initModel = {page: _user$project$Main$About, blog: _user$
 var _user$project$Main$AboutMsg = function (a) {
 	return {ctor: 'AboutMsg', _0: a};
 };
+var _user$project$Main$aboutPage = function (model) {
+	return A2(
+		_elm_lang$html$Html_App$map,
+		_user$project$Main$AboutMsg,
+		_user$project$About$view(model.about));
+};
 var _user$project$Main$ContactMsg = function (a) {
 	return {ctor: 'ContactMsg', _0: a};
+};
+var _user$project$Main$contactPage = function (model) {
+	return A2(
+		_elm_lang$html$Html_App$map,
+		_user$project$Main$ContactMsg,
+		_user$project$Contact$view(model.contact));
 };
 var _user$project$Main$BlogMsg = function (a) {
 	return {ctor: 'BlogMsg', _0: a};
 };
 var _user$project$Main$initCommand = A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$BlogMsg, _user$project$Blog$allPosts);
 var _user$project$Main$init = {ctor: '_Tuple2', _0: _user$project$Main$initModel, _1: _user$project$Main$initCommand};
+var _user$project$Main$blogPage = function (model) {
+	return A2(
+		_elm_lang$html$Html_App$map,
+		_user$project$Main$BlogMsg,
+		_user$project$Blog$view(model.blog));
+};
 var _user$project$Main$Navigate = function (a) {
 	return {ctor: 'Navigate', _0: a};
 };
@@ -8956,7 +9005,9 @@ var _user$project$Main$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
-			[]),
+			[
+				_elm_lang$html$Html_Attributes$class('container')
+			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
 				_user$project$Main$navBar(model),
@@ -8966,15 +9017,28 @@ var _user$project$Main$view = function (model) {
 					[]),
 				_elm_lang$core$Native_List.fromArray(
 					[])),
-				page,
 				A2(
-				_elm_lang$html$Html$p,
-				_elm_lang$core$Native_List.fromArray(
-					[]),
+				_elm_lang$html$Html$div,
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html$text(
-						_elm_lang$core$Basics$toString(model))
+						_elm_lang$html$Html_Attributes$class('view')
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_elm_lang$html$Html$div,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$class('strip'),
+								_elm_lang$html$Html_Attributes$id(
+								_elm_lang$core$Basics$toString(model.page))
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_user$project$Main$aboutPage(model),
+								_user$project$Main$blogPage(model),
+								_user$project$Main$contactPage(model)
+							]))
 					]))
 			]));
 };

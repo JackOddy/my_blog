@@ -35,7 +35,9 @@ type Msg
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ div [ class "github" ] [ text model.github ]
-        , div [ class "email" ] [ text model.email ]
+    div [ class "pane" ]
+        [ div [ class "contact" ]
+            [ div [ class "github" ] [ text model.github ]
+            , div [ class "email" ] [ text model.email ]
+            ]
         ]

@@ -19,6 +19,8 @@ type Msg
 
 view : Model -> Html Msg
 view model =
-    div [ class "about" ]
-        [ div [] [ text model.about ]
+    div [ class "pane" ]
+        [ div [ class "about" ]
+            [ div [] [ text model.about ]
+            ]
         ]

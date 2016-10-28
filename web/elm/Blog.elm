@@ -68,5 +68,7 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ text model ]
+    div [ class "pane" ]
+        [ div [ class "blog" ]
+            [ text model ]
+        ]
