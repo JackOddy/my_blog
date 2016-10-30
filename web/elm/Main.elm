@@ -51,16 +51,22 @@ initCommand =
 
 
 type Msg
-    = Navigate Page
+    = Navigate Direction 
     | BlogMsg Blog.Msg
     | ContactMsg Contact.Msg
     | AboutMsg About.Msg
 
+type Direction
+  = Left
+  | Right
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Navigate page ->
+        Navigate direction ->
+          let
+              page = changePage direction
+          in
             ( { model | page = page }, Cmd.none )
 
         BlogMsg subMsg ->
@@ -77,6 +83,13 @@ update msg model =
             ( model, Cmd.none )
 
 
+changePage : Direction -> Page
+changePage direction =
+  case direction of
+    Left ->
+      --stuff
+    Right ->
+      -- stuff
 
 -- view
 
@@ -90,15 +103,6 @@ navBar model =
         , text " | "
         , a [ onClick <| Navigate Contact ] [ text "Contact" ]
         ]
-
-
-viewPage : String -> Html Msg
-viewPage pageDescription =
-    div []
-        [ h3 [] [ text pageDescription ]
-        , p [] [ text <| "TODO: Make " ++ pageDescription ]
-        ]
-
 
 aboutPage : Model -> Html Msg
 aboutPage model =
@@ -139,7 +143,11 @@ view model =
             [ navBar model
             , hr [] []
             , div [ class "view" ]
-                [ div
+                [ div [ class "arrow-bar" ]
+                    [ div [ class "left arrow", onClick <| Navigate Left ] []
+                    , div [ class "right arrow", <| Navigate Right ] []
+                    ]
+                , div
                     [ class "strip", id <| toString model.page ]
                     [ aboutPage model
                     , blogPage model
